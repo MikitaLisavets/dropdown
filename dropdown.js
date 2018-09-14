@@ -12,12 +12,14 @@
       page: 'js-dropdown-page',
       paginator: 'js-dropdown-paginator',
       paginatorItem: 'js-dropdown-paginator-item',
+      placeholder: 'js-dropdown-placeholder'
     }
     let model = {
       selections: [],
       list: [],
       page: 1,
-      maxItemsPerPage: 5
+      maxItemsPerPage: 5,
+      placeholderText: 'Select...'
     }
 
     initModel(options.items)
@@ -135,7 +137,16 @@
       )
     }
 
+    function placeholderTemplate() {
+      let placeholder = document.createElement('div')
+      placeholder.classList.add(classNames.placeholder)
+      placeholder.innerHTML = model.placeholderText
+      return placeholder
+    }
+
     function selectionsTemplate(selections) {
+      if (!selections.length) { return placeholderTemplate() }
+
       let selectionList = document.createElement('ul')
       selectionList.classList.add(classNames.selectionList)
       selections.forEach(selectionItem => {
