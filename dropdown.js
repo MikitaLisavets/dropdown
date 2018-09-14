@@ -18,7 +18,7 @@
       selections: [],
       list: [],
       page: 1,
-      maxItemsPerPage: 5,
+      maxItemsPerPage: 6,
       placeholderText: 'Select...'
     }
 
@@ -31,7 +31,6 @@
 
     function bindEvents(element) {
       selectionsEl.addEventListener('click', (event) => {
-        // IE doesn't support "closest"
         if (event.target.closest('.' + classNames.selectionList)) {
           removeItem(event)
         } else {
@@ -39,7 +38,6 @@
         }
       })
       listEl.addEventListener('click', (event) => {
-        // IE doesn't support "closest"
         if (event.target.closest('.' + classNames.paginator)) {
           changePage(event)
         } else if (event.target.closest('.' + classNames.page)) {
