@@ -32,6 +32,8 @@
         // IE doesn't support "closest"
         if (event.target.closest('.' + classNames.paginator)) {
           changePage(event)
+        } else if (event.target.closest('.' + classNames.page)) {
+          selectItem(event)
         }
       })
     }
@@ -46,7 +48,33 @@
       const selectedPage = event.target.dataset.value
       if (!selectedPage) return
       model.page = +selectedPage
+      renderDropdown()
+    }
 
+    function selectItem(event) {
+      event.preventDefault()
+      const selectedItemValue = event.target.dataset.value
+      console.log(selectedItemValue)
+      if (!selectedItemValue) return
+      model.selections.some((selectionItem, index) => {
+        if (selectionItem.value !== selectedItemValue) return
+        model.selections.splice(index, 1)
+        return true
+      })
+
+      model.list.some((listItem) => {
+        if (listItem.value !== selectedItemValue) return
+        if (listItem.selected) {
+          listItem.selected = false
+        } else {
+          listItem.selected = true
+          model.selections.push({
+            title: listItem.title,
+            value: listItem.value
+          })
+        }
+        return true
+      })
       renderDropdown()
     }
     
