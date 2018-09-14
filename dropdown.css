@@ -45,3 +45,19 @@
   margin-top: -1px;
   box-sizing: border-box;
 }
+
+.js-dropdown-item {
+
+}
+
+.js-dropdown-item.seleced {
+  color: red;
+}
+
+.js-dropdown-paginator-item {
+
+}
+
+.js-dropdown-paginator-item.selected {
+  color: red
+}

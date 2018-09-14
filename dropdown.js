@@ -9,7 +9,8 @@
       selected: 'selected',
       list: 'js-dropdown-list',
       page: 'js-dropdown-page',
-      paginator: 'js-dropdown-paginator'
+      paginator: 'js-dropdown-paginator',
+      paginatorItem: 'js-dropdown-paginator-item',
     }
     let model = {
       selections: [],
@@ -27,6 +28,12 @@
 
     function bindEvents(element) {
       selectionsEl.addEventListener('click', toggleDropdown)
+      listEl.addEventListener('click', (event) => {
+        // IE doesn't support "closest"
+        if (event.target.closest('.' + classNames.paginator)) {
+          changePage(event)
+        }
+      })
     }
 
     function toggleDropdown(event) {
@@ -34,17 +41,35 @@
       dropdownEl.classList.toggle('open')
     }
 
+    function changePage(event) {
+      event.preventDefault()
+      const selectedPage = event.target.dataset.value
+      if (!selectedPage) return
+      model.page = +selectedPage
+
+      renderDropdown()
+    }
+    
+    function clearDropdown() {
+      selectionsEl.innerHTML = ''
+      listEl.innerHTML = ''
+    }
+
+    function renderDropdown() {
+      clearDropdown()
+      selectionsEl.appendChild(selectionsTemplate(model.selections))
+      listEl.appendChild(pageTemplate(model.list, model.page, model.maxItemsPerPage))
+      if (model.list.length > model.maxItemsPerPage) {
+        listEl.appendChild(paginatorTemplate(model.list.length, model.page, model.maxItemsPerPage))
+      }
+    }
+
     function initElement(element) {
       element.innerHTML = dropdownTemplate()
       dropdownEl = element.getElementsByClassName(classNames.dropdown)[0]
       selectionsEl = dropdownEl.getElementsByClassName(classNames.selections)[0]
       listEl = dropdownEl.getElementsByClassName(classNames.list)[0]
-
-      selectionsEl.appendChild(selectionsTemplate(model.selections))
-      listEl.appendChild(pageTemplate(model.list, model.page, model.maxItemsPerPage))
-      if (model.list.length > model.maxItemsPerPage) {
-        listEl.appendChild(paginatorTemplate(model.list.length, model.maxItemsPerPage))
-      }
+      renderDropdown()
       bindEvents(element)
     }
 
@@ -73,7 +98,7 @@
     function pageTemplate(list, pageNumber, maxItemsPerPage) {
       let page = document.createElement('ul')
       page.classList.add(classNames.page)
-      list.slice((pageNumber - 1) * maxItemsPerPage, maxItemsPerPage).forEach(item => {
+      list.slice((pageNumber - 1) * maxItemsPerPage, pageNumber * maxItemsPerPage).forEach(item => {
         let li = document.createElement('li')
         li.innerHTML = item.title
         li.dataset.value = item.value
@@ -86,13 +111,18 @@
       return page
     }
 
-    function paginatorTemplate(itemCount, maxItemsPerPage) {
+    function paginatorTemplate(itemCount, page, maxItemsPerPage) {
       const count = Math.ceil(itemCount / maxItemsPerPage)
       let paginator = document.createElement('ul')
       paginator.classList.add(classNames.paginator)
       for (let i = 1; i <= count; i++) {
-        let li = document.createElement('li', i)
+        let li = document.createElement('li')
         li.innerHTML = i
+        li.dataset.value = i
+        li.classList.add(classNames.paginatorItem)
+        if (page === i) {
+          li.classList.add(classNames.selected)
+        }
         paginator.appendChild(li)
       }
       return paginator
