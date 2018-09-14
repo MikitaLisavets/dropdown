@@ -5,6 +5,7 @@
       dropdown: 'js-dropdown',
       selections: 'js-dropdown-selections',
       selectionList: 'js-dropdown-selection-list',
+      selectionItem: 'js-dropdown-selection-item',
       item: 'js-dropdown-item',
       selected: 'selected',
       list: 'js-dropdown-list',
@@ -27,7 +28,14 @@
     }
 
     function bindEvents(element) {
-      selectionsEl.addEventListener('click', toggleDropdown)
+      selectionsEl.addEventListener('click', (event) => {
+        // IE doesn't support "closest"
+        if (event.target.closest('.' + classNames.selectionList)) {
+          removeItem(event)
+        } else {
+          toggleDropdown(event)
+        }
+      })
       listEl.addEventListener('click', (event) => {
         // IE doesn't support "closest"
         if (event.target.closest('.' + classNames.paginator)) {
@@ -51,16 +59,25 @@
       renderDropdown()
     }
 
+    function removeItem(event) {
+      event.preventDefault()
+      const selectedItemValue = event.target.dataset.value
+      if (!selectedItemValue) return
+      removeItemFromSelections(selectedItemValue)
+
+      model.list.some((listItem) => {
+        if (listItem.value !== selectedItemValue) return
+        listItem.selected = false
+        return true
+      })
+      renderDropdown()
+    }
+
     function selectItem(event) {
       event.preventDefault()
       const selectedItemValue = event.target.dataset.value
-      console.log(selectedItemValue)
       if (!selectedItemValue) return
-      model.selections.some((selectionItem, index) => {
-        if (selectionItem.value !== selectedItemValue) return
-        model.selections.splice(index, 1)
-        return true
-      })
+      removeItemFromSelections(selectedItemValue)
 
       model.list.some((listItem) => {
         if (listItem.value !== selectedItemValue) return
@@ -76,6 +93,14 @@
         return true
       })
       renderDropdown()
+    }
+
+    function removeItemFromSelections(value) {
+      model.selections.some((selectionItem, index) => {
+        if (selectionItem.value !== value) return
+        model.selections.splice(index, 1)
+        return true
+      })
     }
     
     function clearDropdown() {
@@ -117,6 +142,7 @@
         let li = document.createElement('li')
         li.innerHTML = selectionItem.title
         li.dataset.value = selectionItem.value
+        li.classList.add(classNames.selectionItem)
         selectionList.appendChild(li)
       })
 
