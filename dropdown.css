@@ -1,0 +1,29 @@
+.js-dropdown {
+  height: 40px;
+  width: 200px;
+  display: block;
+  position: relative;
+}
+.js-dropdown.open .js-dropdown-list {
+  display: block;
+}
+
+.js-dropdown-selections {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.js-dropdown-list {
+  display: none;
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ddd;
+  left: 0;
+  top: 100%;
+  position: absolute;
+  margin-top: -1px;
+  box-sizing: border-box;
+}

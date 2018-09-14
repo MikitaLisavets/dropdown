@@ -11,9 +11,24 @@
   <div id="dropdown"></div>
   <script src="dropdown.js"></script>
   <script>
-    document.onload = function() {
-      if (!window.dropdown) return
-      window.dropdown(document.getElementById('dropdown'))
+    window.onload = function() {
+      if (!window.jsDropdown) return
+      window.jsDropdown({
+        element: document.getElementById('dropdown'),
+        items: [
+          { title: 'item 1', value: 'item1' },
+          { title: 'item 2', value: 'item2' },
+          { title: 'item 3', value: 'item3' },
+          { title: 'item 4', value: 'item4' },
+          { title: 'item 5', value: 'item5' },
+          { title: 'item 6', value: 'item6' },
+          { title: 'item 7', value: 'item7' },
+          { title: 'item 8', value: 'item8' },
+          { title: 'item 9', value: 'item9' },
+          { title: 'item 10', value: 'item10' },
+          { title: 'item 11', value: 'item11' }
+        ]
+      })
     }
   </script>
 </body>
