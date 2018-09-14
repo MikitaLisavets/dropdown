@@ -54,6 +54,11 @@
   background: lightcoral;
 }
 
+.js-dropdown-placeholder {
+  padding: 3px 0;
+  margin-bottom: 4px;
+}
+
 .js-dropdown-list {
   display: none;
   width: 100%;
@@ -69,6 +74,8 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  max-height: 220px;
+  overflow: auto;
 }
 
 .js-dropdown-item {
@@ -79,10 +86,6 @@
 
 .js-dropdown-item:first-child {
   border-top: none;
-}
-
-.js-dropdown-item:nth-child(odd) {
-  background: #eee;
 }
 
 .js-dropdown-item:hover {
