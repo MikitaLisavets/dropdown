@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dropdown Demo</title>
+  <link rel="stylesheet" href="dropdown.css">
+</head>
+<body>
+  <div id="dropdown"></div>
+  <script src="dropdown.js"></script>
+  <script>
+    document.onload = function() {
+      if (!window.dropdown) return
+      window.dropdown(document.getElementById('dropdown'))
+    }
+  </script>
+</body>
+</html>
