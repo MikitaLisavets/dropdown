@@ -4,6 +4,7 @@
   display: block;
   position: relative;
 }
+
 .js-dropdown.open .js-dropdown-list {
   display: block;
 }
@@ -14,6 +15,23 @@
   height: 100%;
   border: 1px solid #ddd;
   box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 40px 10px 10px;
+}
+
+.js-dropdown-selections:after {
+  content: '▼';
+  position: absolute;
+  font-size: 12px;
+  line-height: 12px;
+  right: 14px;
+  top: 50%;
+  margin-top: -6px;
+}
+
+.js-dropdown.open .js-dropdown-selections:after {
+  transform: rotate(180deg)
 }
 
 .js-dropdown-list {

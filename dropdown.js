@@ -1,5 +1,6 @@
 (function(){
   const jsDropdown = function(options) {
+    let dropdownEl, selectionsEL, listEL;
     const classNames= {
       dropdown: 'js-dropdown',
       selections: 'js-dropdown-selections',
@@ -19,8 +20,21 @@
       model.list = list
     }
 
+    function bindEvents(element) {
+      selectionsEl.addEventListener('click', toggleDropdown)
+    }
+
+    function toggleDropdown(event) {
+      event.preventDefault()
+      dropdownEl.classList.toggle('open')
+    }
+
     function initElement(element) {
       element.innerHTML = dropdownTemplate()
+      dropdownEl = element.getElementsByClassName(classNames.dropdown)[0]
+      selectionsEl = dropdownEl.getElementsByClassName(classNames.selections)[0]
+      listEl = dropdownEl.getElementsByClassName(classNames.list)[0]
+      bindEvents(element)
     }
 
     function dropdownTemplate() {
